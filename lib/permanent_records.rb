@@ -100,7 +100,7 @@ module PermanentRecords
         'destroy' == reflection.options[:dependent].to_s && reflection.klass.is_permanent?
       end.each do |name, reflection|
         cardinality = reflection.macro.to_s.gsub('has_', '')
-        if cardinality == 'many'
+        if cardinality == 'many' && deleted_at
           records = send(name).unscoped.where(
             [
               "#{reflection.quoted_table_name}.deleted_at > ?" +
